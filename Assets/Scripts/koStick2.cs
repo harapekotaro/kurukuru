@@ -17,7 +17,7 @@ public class koStick2 : MonoBehaviour {
 	{
 		// rb2d.velocity = Vector2.zero;
 		//tokei = tokei ? false:true;	
-		parent.transform.eulerAngles += new Vector3 (0f, 0f, -30f);
+		parent.transform.eulerAngles += new Vector3 (0f, 0f, 30f);
 	}
 
 }
