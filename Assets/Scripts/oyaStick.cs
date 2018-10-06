@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Stick : MonoBehaviour {
+public class oyaStick : MonoBehaviour {
 
 	private Rigidbody2D rb2d;
 
@@ -11,7 +11,7 @@ public class Stick : MonoBehaviour {
 	// Stickの回転速度
 	public float speed = 3;
 	// Stickの回転方向
-	private bool tokei = true;
+	public bool tokei = false;
 
 	void Start(){
 		// Rigidbody2Dを取得
@@ -21,10 +21,10 @@ public class Stick : MonoBehaviour {
 	void Update () {
 		// tokeiの真偽によって回転方向を変える
 		if (tokei){
-			transform.eulerAngles += new Vector3 (0,0,2);
+			transform.eulerAngles += new Vector3 (0,0,1 * rspeed);
 		}
 		else{
-			transform.eulerAngles += new Vector3 (0,0,-2);
+			transform.eulerAngles += new Vector3 (0,0,-1 * rspeed);
 		}
 		
 		//入力を取得
@@ -38,8 +38,4 @@ public class Stick : MonoBehaviour {
 		rb2d.velocity = direction * speed;
 	}
 
-	void OnCollisionEnter2D(Collision2D c)
-	{
-		tokei = tokei ? false:true;	
-	}
 }
