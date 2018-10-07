@@ -73,6 +73,14 @@ public class Stick : MonoBehaviour {
 			butukari2 = false;
 		}
 	}
+	void FixedUpdate () {
+		//ダメージを受けた時の処理
+		if(butukari){
+			float level = Mathf.Abs(Mathf.Sin(Time.time * 10));
+			gameObject.GetComponent<SpriteRenderer> ().color =  new Color(28f,207f,151f,level);
+		}
+	}
+
 
 	// Update is called once per frame
 	void Update () {
