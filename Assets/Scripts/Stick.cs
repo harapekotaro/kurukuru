@@ -5,6 +5,7 @@ using UnityEngine;
 public class Stick : MonoBehaviour {
 
 	private Rigidbody2D rb2d;
+	private SpriteRenderer spriter;
 
 	// Stickの回転速度
 	public float rspeed = 2;
@@ -12,17 +13,18 @@ public class Stick : MonoBehaviour {
 	public float speed = 3;
 	// Stickの回転方向
 	public bool tokei = false;
-	//子Stick
-	public GameObject kostick;
 	//ぶつかった判定
 	private bool butukari = false;
-	private bool butukari2 = false;
-
+	// 積算時間を収納
 	private float timeElapsed;
+	private Vector2 direction;
+	
 
 	void Start(){
 		// Rigidbody2Dを取得
 		rb2d = GetComponent<Rigidbody2D>();
+		// SpriteRendererの取得
+		spriter = gameObject.GetComponent<SpriteRenderer> ();
 	}
 
 	// 棒操作
@@ -56,35 +58,35 @@ public class Stick : MonoBehaviour {
 	{
 		// ぶつかってからの時間を計測
 		timeElapsed += Time.deltaTime;
-		// 連続で二回ぶつかると回転が止まる
-		if (butukari2){
-			rb2d.angularVelocity = 0f;
-		}
-		else{
-			StickRotator();
-		}
 		// timeElapsedが設定した時間を越えるとぶつかりモードを終了する
 		if(timeElapsed >= 0.7f) 
 		{
 			rb2d.angularVelocity = 0f;
-			tokei = tokei ? false:true;
 			timeElapsed = 0.0f;
 			butukari = false;
-			butukari2 = false;
+			spriter.color =  new Color(28f,207f,151f,0.7f);
 		}
 	}
+
 	void FixedUpdate () {
+		// 移動
+		rb2d.velocity = direction * speed;
+
 		//ダメージを受けた時の処理
 		if(butukari){
 			float level = Mathf.Abs(Mathf.Sin(Time.time * 10));
-			gameObject.GetComponent<SpriteRenderer> ().color =  new Color(28f,207f,151f,level);
+			spriter.color =  new Color(28f,207f,151f,level);
 		}
 	}
 
 
 	// Update is called once per frame
 	void Update () {
-		StickControler();
+		// 入力を検出
+		float x = Input.GetAxisRaw("Horizontal");
+		float y = Input.GetAxisRaw("Vertical");
+		//方向を決定
+		direction = new Vector2(x, y).normalized;
 
 		// ぶつかったときにぶつかりモードにはいる
 		if (butukari){
@@ -95,15 +97,8 @@ public class Stick : MonoBehaviour {
 		}
 	}
 
-
-	void OnCollisionEnter2D(Collision2D c)
+	void OnCollisionStay2D(Collision2D c)
 	{
-		if (butukari){
-			butukari2 = true;
-		}
-		else{
-			tokei = tokei ? false:true;
 			butukari = true;
-		}
 	}
 }
