@@ -8,21 +8,24 @@ public class Stick : MonoBehaviour {
 	private SpriteRenderer spriter;
 
 	[SerializeField]
-	  private Joystick _joystick = null;
+	private Joystick _joystick = null;
 	// Stickの回転速度
 	public float rspeed = 2;
 	// Stickの回転速度
 	public float speed = 3;
 	// Stickの回転方向
 	public bool tokei = false;
-	//ぶつかった判定
+	// ぶつかった判定
 	private bool butukari = false;
 	// 積算時間を収納
 	private float timeElapsed;
 	// 移動方向
 	private Vector2 direction;
+	private Vector2 direction2;
 	// ぶつかり法線
 	private Vector2 coldir;
+	// 体力
+	public int hp;
 
 	void Start(){
 		// Rigidbody2Dを取得
@@ -33,7 +36,7 @@ public class Stick : MonoBehaviour {
 
 		void FixedUpdate () {
 		// 移動
-		rb2d.velocity = direction * speed;
+		rb2d.velocity = (direction + direction2) * speed;
 		// ぶつかったときにぶつかりモードにはいる
 		if (butukari){
 			ButukariMode();				
@@ -52,12 +55,13 @@ public class Stick : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		// 入力を検出
-		// float x = Input.GetAxisRaw("Horizontal");
-		// float y = Input.GetAxisRaw("Vertical");
-		float x = _joystick.Position.x;
-		float y = _joystick.Position.y;
+		float xkey = Input.GetAxisRaw("Horizontal");
+		float ykey = Input.GetAxisRaw("Vertical");
+		float xtouch = _joystick.Position.x;
+		float ytouch = _joystick.Position.y;
 		//方向を決定
-		direction = new Vector2(x, y).normalized;
+		direction = new Vector2(xkey, ykey).normalized;
+		direction2 = new Vector2(xtouch, ytouch).normalized;
 
 	}
 
@@ -66,10 +70,10 @@ public class Stick : MonoBehaviour {
 	{
 	// tokeiの真偽によって回転方向を変える
 		if (tokei){
-			transform.eulerAngles += new Vector3 (0,0,1 * rspeed);
+			transform.eulerAngles += new Vector3 (0,0,-1 * rspeed);
 		}
 		else{
-			transform.eulerAngles += new Vector3 (0,0,-1 * rspeed);
+			transform.eulerAngles += new Vector3 (0,0,1 * rspeed);
 		}
 	}
 
@@ -96,9 +100,15 @@ public class Stick : MonoBehaviour {
 	{
 		// ぶつかったとき接触した場所との法線を取得
 		if (!butukari){
-			GetComponent<AudioSource>().Play();
+			FindObjectOfType<SoundManager>().Playhit();
 			coldir = c.contacts[0].normal;
+			hp--;
+			if (hp <= 0){
+				FindObjectOfType<SoundManager>().Playover();
+				Destroy(gameObject);
+			}
 		}
 		butukari = true;
+
 	}
 }
