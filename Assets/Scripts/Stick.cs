@@ -7,6 +7,8 @@ public class Stick : MonoBehaviour {
 	private Rigidbody2D rb2d;
 	private SpriteRenderer spriter;
 
+	[SerializeField]
+	  private Joystick _joystick = null;
 	// Stickの回転速度
 	public float rspeed = 2;
 	// Stickの回転速度
@@ -50,25 +52,13 @@ public class Stick : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		// 入力を検出
-		float x = Input.GetAxisRaw("Horizontal");
-		float y = Input.GetAxisRaw("Vertical");
+		// float x = Input.GetAxisRaw("Horizontal");
+		// float y = Input.GetAxisRaw("Vertical");
+		float x = _joystick.Position.x;
+		float y = _joystick.Position.y;
 		//方向を決定
 		direction = new Vector2(x, y).normalized;
 
-	}
-
-	// 棒操作
-	void StickControler()
-	{	
-		//入力を取得
-		float x = Input.GetAxisRaw("Horizontal");
-		float y = Input.GetAxisRaw("Vertical");
-
-		//方向を決定
-		Vector2 direction = new Vector2(x, y).normalized;
-
-		//移動
-		rb2d.velocity = direction * speed;
 	}
 
 	// 回転
@@ -93,7 +83,7 @@ public class Stick : MonoBehaviour {
 		rb2d.AddForce(coldir * 4f, ForceMode2D.Impulse);
 		}
 		// timeElapsedが設定した時間を越えるとぶつかりモードを終了する
-		if(timeElapsed >= 0.7f) 
+		if(timeElapsed >= 0.8f) 
 		{
 			timeElapsed = 0.0f;
 			butukari = false;
