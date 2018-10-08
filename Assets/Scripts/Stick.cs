@@ -106,7 +106,8 @@ public class Stick : MonoBehaviour {
 	{
 		// ぶつかったとき接触した場所との法線を取得
 		if (!butukari){
-		coldir = c.contacts[0].normal;
+			GetComponent<AudioSource>().Play();
+			coldir = c.contacts[0].normal;
 		}
 		butukari = true;
 	}
