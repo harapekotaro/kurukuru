@@ -25,7 +25,7 @@ public class Stick : MonoBehaviour {
 	// ぶつかり法線
 	private Vector2 coldir;
 	// 体力
-	public int hp;
+	public int hp = 3;
 
 	void Start(){
 		// Rigidbody2Dを取得
