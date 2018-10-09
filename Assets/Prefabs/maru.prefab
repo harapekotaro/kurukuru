@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 222571417247285704}
   - component: {fileID: 114186116489136968}
   m_Layer: 0
-  m_Name: Image
+  m_Name: maru
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

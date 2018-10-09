@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
+  - component: {fileID: 519420030}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -137,6 +138,18 @@ AudioListener:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
+--- !u!114 &519420030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13021859bed1a4e5c98de817daa51637, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 2117563752}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -408,7 +421,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 73d19890d0f3e474c9e862fd4432f726, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 29a7d093a04744970ba2aa4ece6f2f74, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -494,7 +507,7 @@ RectTransform:
   m_GameObject: {fileID: 1201100485}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1044397945}
   - {fileID: 891631881}
@@ -1463,3 +1476,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maru: {fileID: 1992593675219238, guid: cea4f6d1dc300429e9ef3f3b17a9b63b, type: 2}
+  player: {fileID: 1112383986463672, guid: 059d84a985b3541918eba86bfa5f3b0d, type: 2}

@@ -7,6 +7,8 @@ public class Stick : MonoBehaviour {
 	private Rigidbody2D rb2d;
 	private SpriteRenderer spriter;
 
+	private UICanvas uiscript;
+
 	[SerializeField]
 	private Joystick _joystick = null;
 	// Stickの回転速度
@@ -21,22 +23,25 @@ public class Stick : MonoBehaviour {
 	private float timeElapsed;
 	// 移動方向
 	private Vector2 direction;
-	private Vector2 direction2;
 	// ぶつかり法線
 	private Vector2 coldir;
 	// 体力
 	public int hp = 3;
+
 
 	void Start(){
 		// Rigidbody2Dを取得
 		rb2d = GetComponent<Rigidbody2D>();
 		// SpriteRendererの取得
 		spriter = gameObject.GetComponent<SpriteRenderer> ();
+		GameObject uicanvas = GameObject.Find("UICanvas");
+		uiscript = uicanvas.GetComponent<UICanvas>();
+		
 	}
 
 		void FixedUpdate () {
 		// 移動
-		rb2d.velocity = (direction + direction2) * speed;
+		rb2d.velocity = direction * speed;
 		// ぶつかったときにぶつかりモードにはいる
 		if (butukari){
 			ButukariMode();				
@@ -60,8 +65,8 @@ public class Stick : MonoBehaviour {
 		float xtouch = _joystick.Position.x;
 		float ytouch = _joystick.Position.y;
 		//方向を決定
-		direction = new Vector2(xkey, ykey).normalized;
-		direction2 = new Vector2(xtouch, ytouch).normalized;
+		direction = new Vector2(xkey + xtouch, ykey + ytouch).normalized;
+
 
 	}
 
@@ -102,6 +107,7 @@ public class Stick : MonoBehaviour {
 		if (!butukari){
 			FindObjectOfType<SoundManager>().Playhit();
 			coldir = c.contacts[0].normal;
+			uiscript.Damage();
 			hp--;
 			if (hp <= 0){
 				FindObjectOfType<SoundManager>().Playover();
