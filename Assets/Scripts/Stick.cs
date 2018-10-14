@@ -9,8 +9,6 @@ public class Stick : MonoBehaviour {
 
 	private UICanvas uiscript;
 
-	[SerializeField]
-	private Joystick _joystick = null;
 	// Stickの回転速度
 	public float rspeed = 2;
 	// Stickの回転速度
@@ -26,8 +24,9 @@ public class Stick : MonoBehaviour {
 	// ぶつかり法線
 	private Vector2 coldir;
 	// 体力
-	public int hp = 3;
-
+	public static int hp = 3;
+	[SerializeField] 
+	private Joystick _joystick = null;
 
 	void Start(){
 		// Rigidbody2Dを取得
@@ -44,15 +43,12 @@ public class Stick : MonoBehaviour {
 		rb2d.velocity = direction * speed;
 		// ぶつかったときにぶつかりモードにはいる
 		if (butukari){
-			ButukariMode();				
+			ButukariMode();	
+			float level = Mathf.Abs(Mathf.Sin(Time.time * 10));
+			spriter.color =  new Color(28f,207f,151f,level);			
 		}
 		else{
 			StickRotator();
-		}
-		//ダメージを受けた時の処理
-		if(butukari){
-			float level = Mathf.Abs(Mathf.Sin(Time.time * 10));
-			spriter.color =  new Color(28f,207f,151f,level);
 		}
 	}
 
@@ -67,7 +63,10 @@ public class Stick : MonoBehaviour {
 		//方向を決定
 		direction = new Vector2(xkey + xtouch, ykey + ytouch).normalized;
 
-
+		if (Input.GetKeyDown(KeyCode.K) == true){
+			uiscript.HPDealer(1);
+			hp++;
+		}
 	}
 
 	// 回転
@@ -85,36 +84,47 @@ public class Stick : MonoBehaviour {
 	// ぶつかったときの挙動
 	void ButukariMode()
 	{
-		// ぶつかってからの時間を計測
-		timeElapsed += Time.deltaTime;
-		// 反発
-		if(timeElapsed <= 0.2f){
-		rb2d.AddForce(coldir * 4f, ForceMode2D.Impulse);
-		}
-		// timeElapsedが設定した時間を越えるとぶつかりモードを終了する
-		if(timeElapsed >= 0.8f) 
-		{
-			timeElapsed = 0.0f;
-			butukari = false;
-			spriter.color =  new Color(28f,207f,151f,1f);
-			rb2d.angularVelocity = 0f;
-		}
+			// ぶつかってからの時間を計測
+			timeElapsed += Time.deltaTime;
+			// 反発
+			if(timeElapsed <= 0.2f){
+			rb2d.AddForce(coldir * 4f, ForceMode2D.Impulse);
+			}
+			// timeElapsedが設定した時間を越えるとぶつかりモードを終了する
+			if(timeElapsed >= 0.8f) 
+			{
+				timeElapsed = 0.0f;
+				butukari = false;
+				spriter.color =  new Color(28f,207f,151f,1f);
+				rb2d.angularVelocity = 0f;
+				return;
+			}
+		
 	}
 
 	void OnCollisionEnter2D(Collision2D c)
 	{
-		// ぶつかったとき接触した場所との法線を取得
-		if (!butukari){
-			FindObjectOfType<SoundManager>().Playhit();
-			coldir = c.contacts[0].normal;
-			uiscript.Damage();
-			hp--;
-			if (hp <= 0){
-				FindObjectOfType<SoundManager>().Playover();
-				Destroy(gameObject);
-			}
+		if (c.gameObject.CompareTag ("Bane"))
+		{
+			FindObjectOfType<SoundManager>().PlayBane();
+			tokei = tokei ? false:true;
 		}
-		butukari = true;
+
+		else
+		{
+			// ぶつかったとき接触した場所との法線を取得
+			if (!butukari){
+				FindObjectOfType<SoundManager>().Playhit();
+				coldir = c.contacts[0].normal;
+				uiscript.HPDealer(-1);
+				hp--;
+				if (hp <= 0){
+					FindObjectOfType<SoundManager>().Playover();
+					Destroy(gameObject);
+				}
+			}
+			butukari = true;
+		}
 
 	}
 }
