@@ -19,7 +19,12 @@ public class SoundManager : MonoBehaviour {
     }
     public void Playover()
     {
-        audioSource.clip = audioClip2;
+        
+    }
+
+    public void PlayBane()
+    {
+        audioSource.clip = audioClip3;
         audioSource.Play();
     }
 }

@@ -14,6 +14,7 @@ public class CameraController : MonoBehaviour {
     {
         //プレイヤーとカメラ間の距離を取得してそのオフセット値を計算し、格納します。
         offset = transform.position - player.transform.position;
+
     }
     
     // 各フレームで、Update の後に LateUpdate が呼び出されます。

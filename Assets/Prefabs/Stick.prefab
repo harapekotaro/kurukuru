@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114343848377308384}
   m_Layer: 0
   m_Name: Stick
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -58,7 +58,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.2
   m_GravityScale: 0
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 19f03b8b52c6c49a5a0cf2d5bab9e4bc, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -102,6 +102,7 @@ MonoBehaviour:
   rspeed: 1.5
   speed: 3
   tokei: 1
+  _joystick: {fileID: 0}
 --- !u!212 &212393792812380122
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -6,29 +6,46 @@ public class UICanvas : MonoBehaviour {
 
 	public GameObject maru;
 	public GameObject player;
-	private Stick stickScript;
-
+	private int startHP;
 	private int h;
 	private List<GameObject> hpBar;
+	
 
 	// Use this for initialization
 	void Start () {
-		stickScript = player.GetComponent<Stick>();
-		h = stickScript.hp;
+		startHP = Stick.hp;
+		h = startHP;
 		hpBar = new List<GameObject>();
-		for(int i = 0; i < h; i++)
+		for(int i = 0; i < startHP; i++)
 		{
 			GameObject hpicon = (GameObject)Instantiate(maru, new Vector3 (35f, 35f + i*53f, 0f), Quaternion.identity);
 			hpicon.transform.SetParent(transform);
 			hpBar.Add(hpicon);
 		}
-		
+
 	}
 
-	 public void Damage()
+	public void HPDealer(int num)
 	{
-		hpBar[h-1].SetActive (false);
-
-		h--;
+		if(num < 0){
+			hpBar[h-1].SetActive (false);
+			h--;
+		}
+		else{
+			if(h < startHP ){
+				hpBar[h].SetActive (true);
+				h++;
+			}
+		}
 	}
+
+	// public void Shoukan()
+	// {
+	// 	Instantiate (player, player.transform.position, player.transform.rotation);
+	// 	h = startHP;
+	// 	foreach(GameObject i in hpBar)
+	// 	{
+	// 		i.SetActive (true);
+	// 	}
+	// }
 }
